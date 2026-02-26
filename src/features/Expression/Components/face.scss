@@ -1,0 +1,80 @@
+$primary: #7f5af0;
+$secondary: #2cb67d;
+$danger: #ff4d6d;
+
+.face-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #7f5af0, #2cb67d);
+  font-family: "Poppins", sans-serif;
+}
+
+.face-card {
+  width: 500px;
+  padding: 2rem;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  color: white;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.video-container {
+  position: relative;
+
+  video {
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  .expression-badge {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+  }
+}
+
+.controls {
+  margin-top: 1.5rem;
+
+  button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+  }
+
+  .start-btn {
+    background: $secondary;
+    color: white;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .stop-btn {
+    background: $danger;
+    color: white;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
