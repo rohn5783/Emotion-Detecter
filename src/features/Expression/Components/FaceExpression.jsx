@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  FaceLandmarker,
-  FilesetResolver,
-} from "@mediapipe/tasks-vision";
+import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
+import { initCamera, detectFaces } from "../../utils/utils";
 import "../Components/face.scss";
 
-export default function FaceUI() {
+export default function FaceExpression() {
+
   const videoRef = useRef(null);
   const landmarkerRef = useRef(null);
   const animationRef = useRef(null);
@@ -14,73 +13,23 @@ export default function FaceUI() {
   const [expression, setExpression] = useState("Initializing...");
   const [isCameraOn, setIsCameraOn] = useState(false);
 
-  const init = async () => {
-    setExpression("Loading Model...");
-
-    const vision = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
-    );
-
-    landmarkerRef.current = await FaceLandmarker.createFromOptions(
-      vision,
-      {
-        baseOptions: {
-          modelAssetPath:
-            "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
-        },
-        outputFaceBlendshapes: true,
-        runningMode: "VIDEO",
-        numFaces: 1,
-      }
-    );
-
-    streamRef.current = await navigator.mediaDevices.getUserMedia({
-      video: true,
+  const startCamera = () => {
+    initCamera({
+      videoRef,
+      landmarkerRef,
+      streamRef,
+      setExpression,
+      setIsCameraOn,
+      FilesetResolver,
+      FaceLandmarker,
+      detect: () =>
+        detectFaces({
+          videoRef,
+          landmarkerRef,
+          animationRef,
+          setExpression,
+        }),
     });
-
-    videoRef.current.srcObject = streamRef.current;
-    await videoRef.current.play();
-
-    setIsCameraOn(true);
-    setExpression("Detecting...");
-    detect();
-  };
-
-  const detect = () => {
-    if (!landmarkerRef.current || !videoRef.current) return;
-
-    const results = landmarkerRef.current.detectForVideo(
-      videoRef.current,
-      performance.now()
-    );
-
-    if (results.faceBlendshapes?.length > 0) {
-      const blendshapes = results.faceBlendshapes[0].categories;
-
-      const getScore = (name) =>
-        blendshapes.find((b) => b.categoryName === name)?.score || 0;
-
-      const smileLeft = getScore("mouthSmileLeft");
-      const smileRight = getScore("mouthSmileRight");
-      const jawOpen = getScore("jawOpen");
-      const browUp = getScore("browInnerUp");
-      const frownLeft = getScore("mouthFrownLeft");
-      const frownRight = getScore("mouthFrownRight");
-
-      let currentExpression = "Neutral 😐";
-
-      if (smileLeft > 0.5 && smileRight > 0.5) {
-        currentExpression = "Happy 😄";
-      } else if (jawOpen > 0.3 && browUp > 0.3) {
-        currentExpression = "Surprised 😲";
-      } else if (frownLeft > 0.2 && frownRight > 0.2) {
-        currentExpression = "Sad 😢";
-      }
-
-      setExpression(currentExpression);
-    }
-
-    animationRef.current = requestAnimationFrame(detect);
   };
 
   const stopCamera = () => {
@@ -97,12 +46,7 @@ export default function FaceUI() {
   };
 
   useEffect(() => {
-    return () => {
-      stopCamera();
-      if (landmarkerRef.current) {
-        landmarkerRef.current.close();
-      }
-    };
+    return () => stopCamera();
   }, []);
 
   return (
@@ -117,13 +61,9 @@ export default function FaceUI() {
 
         <div className="controls">
           {!isCameraOn ? (
-            <button className="start-btn" onClick={init}>
-              Start Camera
-            </button>
+            <button onClick={startCamera}>Start Camera</button>
           ) : (
-            <button className="stop-btn" onClick={stopCamera}>
-              Stop Camera
-            </button>
+            <button onClick={stopCamera}>Stop Camera</button>
           )}
         </div>
       </div>
