@@ -2,6 +2,7 @@ import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import BlackList from "../model/blacklist.model.js";
+import redis from "../config/cache.js";
 
 /* ================= REGISTER ================= */
 
@@ -145,9 +146,10 @@ async function getUser(req, res) {
 async function logoutUser(req, res) {
   const token = req.cookies.token;
   res.clearCookie("token");
-  await BlackList.create({
-    token,
-  });
+ await redis.set(token,Date.now().toString(),"EX",3600);
+  // await BlackList.create({
+  //   token,
+  // });
   res.status(200).json({
     message: "User logged out successfully",
   });
