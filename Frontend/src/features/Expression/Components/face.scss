@@ -78,3 +78,18 @@ $danger: #ff4d6d;
     }
   }
 }
+.controls{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+}
+
+.logout-btn{
+  background:#ff4d4d;
+  color:white;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+}
