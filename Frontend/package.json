@@ -12,6 +12,8 @@
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.32",
     "axios": "^1.13.6",
+    "framer-motion": "^12.37.0",
+    "lucide-react": "^0.577.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.13.1",

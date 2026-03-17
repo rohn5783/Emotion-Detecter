@@ -1,0 +1,183 @@
+.dashboard {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: #ffffff;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+
+  /* 🌌 Animated Background Blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.6;
+    animation: float 10s ease-in-out infinite alternate;
+    z-index: 0;
+
+    &.blob1 { width: 300px; height: 300px; background: #7c3aed; top: -100px; left: -100px; }
+    &.blob2 { width: 400px; height: 400px; background: #9333ea; bottom: -150px; right: -150px; }
+    &.blob3 { width: 350px; height: 350px; background: #4c1d95; top: 200px; right: -100px; }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(20px) translateX(20px); }
+    100% { transform: translateY(0) translateX(0); }
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 40px;
+
+    .title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 10px #ffffff, 0 0 20px #7c3aed, 0 0 30px #9333ea;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #f5f5f5;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      max-width: 600px;
+      margin: 10px auto 0;
+      line-height: 1.6;
+    }
+  }
+
+  /* Mood Cards Grid */
+  .mood-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
+
+    .mood-card {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+
+      .emoji { font-size: 2rem; margin-bottom: 8px; }
+
+      &:hover {
+        transform: scale(1.1) rotate(3deg);
+        box-shadow: 0 15px 30px rgba(124, 58, 237, 0.5);
+      }
+
+      &.active {
+        background: #7c3aed;
+        box-shadow: 0 0 35px rgba(124, 58, 237, 0.8);
+        color: #ffffff;
+      }
+    }
+  }
+
+  /* Main Interactive Card */
+  .main-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(16px);
+    padding: 30px 40px;
+    border-radius: 25px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    margin-bottom: 50px;
+    transition: all 0.3s ease;
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(124, 58, 237, 0.8);
+    }
+
+    p {
+      font-size: 1rem;
+      color: #f5f5f5;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+
+    .cta-btn {
+      padding: 10px 25px;
+      border-radius: 50px;
+      border: none;
+      background: #7c3aed;
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(124, 58, 237, 0.6);
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 10px 25px rgba(124, 58, 237, 0.9);
+      }
+    }
+  }
+
+  /* Social Dock */
+  .social-dock {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+
+    a {
+      color: #ffffff;
+      font-size: 1.6rem;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+
+      &:hover {
+        transform: scale(1.3) rotate(8deg);
+        color: #a78bfa;
+        text-shadow: 0 0 15px rgba(167, 139, 250, 0.9);
+      }
+    }
+  }
+
+  /* Footer */
+  .footer {
+    position: relative;
+    z-index: 1;
+    font-size: 0.9rem;
+    color: #d1d5db;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero .title { font-size: 2.2rem; }
+    .mood-card { width: 100px; height: 100px; }
+    .main-card { padding: 20px 25px; }
+    .cta-btn { padding: 8px 20px; }
+  }
+}

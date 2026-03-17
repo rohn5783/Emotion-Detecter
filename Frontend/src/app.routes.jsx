@@ -5,6 +5,7 @@ import FaceExpression from "./features/Expression/Components/FaceExpression";
 import ProtectedRoute from "./protected.routes.jsx";
 import Dashboard from "./pages/Dashboard";
 import Mood from "./pages/Mood";
+import MoodifyDashboard from "./pages/IntroDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Login />,
+    element: <MoodifyDashboard />,
   },
 ]);
 
