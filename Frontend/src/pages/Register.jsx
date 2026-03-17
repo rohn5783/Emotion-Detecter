@@ -9,19 +9,26 @@ const Register = () => {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await handleRegister({ username, email, password });
-    navigate("/expression");
+    setError("");
+    try {
+      await handleRegister({ username, email, password });
+      navigate("/expression");
+    } catch (err) {
+      setError(err?.response?.data?.message || "Registration failed");
+    }
   }
   if (Loading) return <div>Loading...</div>;
   return (
     <div className="register-container">
       <div className="register-card">
         <h2>Register</h2>
+        {!!error && <p className="form-error">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
@@ -45,7 +52,7 @@ const Register = () => {
             placeholder="Create password"
           />
 
-          <button>Register</button>
+          <button type="submit">Register</button>
         </form>
 
         <p className="bottom-text">

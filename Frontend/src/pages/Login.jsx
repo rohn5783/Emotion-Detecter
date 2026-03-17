@@ -1,19 +1,25 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../pages/Styles/Login.scss";
 import { useAuth } from "../auth/Hooks/useAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const {handleLogin,Loading} = useAuth();
+  const { handleLogin, Loading } = useAuth();
 const [email, setemail] = useState("");
 const [password, setpassword] = useState("");
+const [error, setError] = useState("");
 
 const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await handleLogin({email,password});
-navigate("/expression");
+    setError("");
+    try {
+      await handleLogin({ email, password });
+      navigate("/expression");
+    } catch (err) {
+      setError(err?.response?.data?.message || "Login failed");
+    }
   
   }
   if(Loading) return <div>Loading...</div>
@@ -21,6 +27,7 @@ navigate("/expression");
     <div className="login-container">
       <div className="login-card">
         <h2>Login</h2>
+        {!!error && <p className="form-error">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
