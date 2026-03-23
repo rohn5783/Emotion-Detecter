@@ -7,23 +7,15 @@ import redis from "./config/cache.js";
 import http from "http";
 import { Server as SocketIOServer } from "socket.io";
 import jwt from "jsonwebtoken";
-import User from "./model/user.model.js";
 import Message from "./model/message.model.js";
+import { corsOptions } from "./config/cors.js";
 
 connectDB();
 
 const server = http.createServer(app);
+const PORT = process.env.PORT || 5000;
 
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: (origin, cb) => {
-      if (!origin) return cb(null, true);
-      if (/^http:\/\/localhost:517\d$/.test(origin)) return cb(null, true);
-      return cb(new Error(`CORS blocked origin: ${origin}`));
-    },
-    credentials: true,
-  },
-});
+const io = new SocketIOServer(server, { cors: corsOptions });
 
 const onlineByUserId = new Map(); // userId -> socketId
 
@@ -112,6 +104,6 @@ io.on("connection", async (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("🚀 Server running on port 3000");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

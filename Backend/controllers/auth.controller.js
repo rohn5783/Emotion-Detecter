@@ -1,8 +1,19 @@
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import BlackList from "../model/blacklist.model.js";
 import redis from "../config/cache.js";
+
+function getCookieOptions() {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 1000 * 60 * 60,
+    path: "/",
+  };
+}
 
 /* ================= REGISTER ================= */
 
@@ -39,11 +50,7 @@ async function registerUser(req, res) {
       { expiresIn: "1h" },
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // production me true
-      sameSite: "lax",
-    });
+    res.cookie("token", token, getCookieOptions());
 
     res.status(201).json({
       message: "User registered successfully",
@@ -98,11 +105,7 @@ async function loginUser(req, res) {
       { expiresIn: "1h" },
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // production me true
-      sameSite: "lax",
-    });
+    res.cookie("token", token, getCookieOptions());
 
     res.status(200).json({
       message: "User logged in successfully",
@@ -141,11 +144,10 @@ async function getUser(req, res) {
 
 async function logoutUser(req, res) {
   const token = req.cookies.token;
-  res.clearCookie("token");
- await redis.set(token,Date.now().toString(),"EX",3600);
-  // await BlackList.create({
-  //   token,
-  // });
+  res.clearCookie("token", getCookieOptions());
+  if (token) {
+    await redis.set(token, Date.now().toString(), "EX", 3600);
+  }
   res.status(200).json({
     message: "User logged out successfully",
   });

@@ -46,6 +46,7 @@ export default function Mood() {
         <div style={{ fontWeight: 900, fontSize: 20 }}>Pick your mood</div>
         <div style={styles.links}>
           <Link style={styles.link} to="/dashboard">Dashboard</Link>
+          <Link style={styles.link} to={`/suggestions?mood=${encodeURIComponent(selected)}`}>Suggestions</Link>
           <Link style={styles.link} to="/expression">Face</Link>
         </div>
       </div>
@@ -77,6 +78,12 @@ export default function Mood() {
           <button onClick={submit} disabled={loading} style={styles.saveBtn}>
             {loading ? "Saving…" : "Save mood"}
           </button>
+          <Link
+            style={styles.exploreBtn}
+            to={`/suggestions?mood=${encodeURIComponent(selected)}`}
+          >
+            Explore songs and movies
+          </Link>
         </div>
       </div>
 
@@ -182,6 +189,20 @@ const styles = {
     color: "#0b1020",
     background: "linear-gradient(135deg, #22c55e, #a855f7)",
     boxShadow: "0 16px 34px rgba(34,197,94,0.25)",
+  },
+  exploreBtn: {
+    marginTop: 10,
+    display: "block",
+    width: "100%",
+    padding: 12,
+    textAlign: "center",
+    textDecoration: "none",
+    borderRadius: 999,
+    fontWeight: 900,
+    letterSpacing: 0.6,
+    color: "#e5e7eb",
+    background: "rgba(79,70,229,0.18)",
+    border: "1px solid rgba(167,139,250,0.24)",
   },
   title: { fontWeight: 900, marginBottom: 12, letterSpacing: 0.4 },
   cols: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 },

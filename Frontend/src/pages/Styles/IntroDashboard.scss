@@ -80,10 +80,16 @@
       color: #ffffff;
       text-shadow: 0 0 5px rgba(0,0,0,0.5);
 
-      .emoji { font-size: 2rem; margin-bottom: 8px; }
+      .emoji {
+        display: inline-block;
+        font-size: 2rem;
+        margin-bottom: 8px;
+        transform-origin: center;
+        will-change: transform;
+        filter: drop-shadow(0 6px 14px rgba(124, 58, 237, 0.28));
+      }
 
       &:hover {
-        transform: scale(1.1) rotate(3deg);
         box-shadow: 0 15px 30px rgba(124, 58, 237, 0.5);
       }
 
@@ -151,7 +157,7 @@
     margin-bottom: 30px;
 
     a {
-      color: #ffffff;
+      color: #414040;
       font-size: 1.6rem;
       transition: all 0.3s ease;
       text-shadow: 0 0 5px rgba(0,0,0,0.5);
@@ -169,7 +175,7 @@
     position: relative;
     z-index: 1;
     font-size: 0.9rem;
-    color: #d1d5db;
+    color: #67768d;
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
 
