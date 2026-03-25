@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom";
-import "../pages/Styles/Login.scss";
-import { useAuth } from "../auth/Hooks/useAuth";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, ShieldCheck, Sparkles, Wand2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/Hooks/useAuth";
+import "../pages/Styles/Login.scss";
+
 const Login = () => {
   const { handleLogin, Loading } = useAuth();
-const [email, setemail] = useState("");
-const [password, setpassword] = useState("");
-const [error, setError] = useState("");
-
-const navigate = useNavigate();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,34 +20,99 @@ const navigate = useNavigate();
     } catch (err) {
       setError(err?.response?.data?.message || "Login failed");
     }
-  
   }
-  if(Loading) return <div>Loading...</div>
-  return (
-    <div className="login-container">
-      <div className="login-card">
-        <h2>Login</h2>
-        {!!error && <p className="form-error">{error}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setemail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setpassword(e.target.value)}
-          />
-          <button type="submit">Login</button>
-        </form>
-        <p className="bottom-text">
-          Don't have an account? 
-          <Link to="/register"> Register</Link>
-        </p>
+  if (Loading) {
+    return (
+      <div className="login-page login-page--loading">
+        <div className="login-loading">Loading your mood space...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="login-page">
+      <div className="login-blob login-blob--one" />
+      <div className="login-blob login-blob--two" />
+      <div className="login-blob login-blob--three" />
+
+      <div className="login-shell">
+        <section className="login-brand">
+          <Link to="/" className="login-mark">
+            Moodify
+          </Link>
+
+          <div className="login-chip">
+            <Sparkles size={16} />
+            Welcome Back
+          </div>
+
+          <h1>Step back into your emotional space.</h1>
+          <p>
+            Sign in to track moods, detect expressions, and unlock music and
+            movie suggestions shaped around how you feel.
+          </p>
+
+          <div className="login-highlights">
+            <div className="login-highlight">
+              <ShieldCheck size={18} />
+              <div>
+                <strong>Private and personal</strong>
+                <span>Your mood history stays tied to your account.</span>
+              </div>
+            </div>
+
+            <div className="login-highlight">
+              <Wand2 size={18} />
+              <div>
+                <strong>Instant suggestions</strong>
+                <span>Jump straight from your mood to songs and movies.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="login-card">
+          <div className="login-card__eyebrow">Sign In</div>
+          <h2>Login to Moodify</h2>
+          <p className="login-card__text">
+            Pick up where you left off and continue your mood journey.
+          </p>
+
+          {!!error && <p className="form-error">{error}</p>}
+
+          <form className="login-form" onSubmit={handleSubmit}>
+            <label className="login-field">
+              <span>Email</span>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setemail(e.target.value)}
+              />
+            </label>
+
+            <label className="login-field">
+              <span>Password</span>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setpassword(e.target.value)}
+              />
+            </label>
+
+            <button className="login-submit" type="submit">
+              <span>Login</span>
+              <ArrowRight size={18} />
+            </button>
+          </form>
+
+          <p className="bottom-text">
+            Don&apos;t have an account?
+            <Link to="/register"> Create one</Link>
+          </p>
+        </section>
       </div>
     </div>
   );
