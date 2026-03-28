@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { ArrowRight, ShieldCheck, Sparkles, Wand2 } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  Sparkles,
+  Wand2,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/Hooks/useAuth";
 import "../pages/Styles/Login.scss";
@@ -8,6 +15,7 @@ const Login = () => {
   const { handleLogin, Loading } = useAuth();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -94,12 +102,29 @@ const Login = () => {
 
             <label className="login-field">
               <span>Password</span>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setpassword(e.target.value)}
-              />
+              <div className="login-password-field">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="password-visibility-toggle"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  <span
+                    className={`password-eye-icon ${
+                      showPassword ? "is-visible" : "is-hidden"
+                    }`}
+                  >
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </span>
+                </button>
+              </div>
             </label>
 
             <button className="login-submit" type="submit">

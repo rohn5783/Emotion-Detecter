@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { ArrowRight, HeartHandshake, Sparkles, UserPlus } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  HeartHandshake,
+  Sparkles,
+  UserPlus,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/Hooks/useAuth";
 import "../pages/Styles/Register.scss";
@@ -9,6 +16,7 @@ const Register = () => {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -105,12 +113,29 @@ const Register = () => {
 
             <label className="register-field">
               <span>Password</span>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setpassword(e.target.value)}
-                placeholder="Create your password"
-              />
+              <div className="register-password-field">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
+                  placeholder="Create your password"
+                />
+                <button
+                  type="button"
+                  className="password-visibility-toggle"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  <span
+                    className={`password-eye-icon ${
+                      showPassword ? "is-visible" : "is-hidden"
+                    }`}
+                  >
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                  </span>
+                </button>
+              </div>
             </label>
 
             <button className="register-submit" type="submit">
